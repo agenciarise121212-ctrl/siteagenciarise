@@ -11,26 +11,24 @@
 #
 set -euo pipefail
 
-echo "==> 1/4 Instalando dependências..."
+echo "==> 1/4 Instalando dependencias..."
 npm ci
 
-echo "==> 2/4 Limpando build anterior..."
-rm -rf dist
+echo "==> 2/4 Conferindo o projeto..."
+npm run check
+npm test
 
-echo "==> 3/4 Gerando build de produção..."
+echo "==> 3/4 Gerando o site compilado..."
+rm -rf dist
 npm run build
 
-echo "==> 4/5 Caminhos relativos + página /briefing/..."
-node scripts/fix-paths.mjs dist
+echo "==> 4/4 Gerando os arquivos ZIP..."
+npm run package:site
 
 echo
 echo "Pronto! A pasta 'dist/' está pronta para publicar."
 echo
-echo "  Opção A (recomendada): publique via GitHub Actions"
-echo "    -> basta dar push no código; o workflow publica sozinho."
-echo "    -> ver .github/workflows/deploy.yml"
+echo "  Site pronto: public/downloads/agencia-rise-site-pronto.zip"
+echo "  Projeto completo: public/downloads/agencia-rise-projeto-completo.zip"
 echo
-echo "  Opção B: publicar manualmente na branch 'gh-pages'"
-echo "    -> ./deploy.sh"
-echo "    -> cd dist && git checkout --orphan gh-pages && git add -A && git commit -m 'Site' && git push -f origin gh-pages"
-echo "    -> (veja o README.md para o passo a passo completo)"
+echo "  Instrucoes: PUBLICAR-NO-GITHUB.md"

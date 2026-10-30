@@ -1,5 +1,9 @@
 # Agência Rise — Portfólio
 
+**Para publicar sem tela branca:** consulte [PUBLICAR-NO-GITHUB.md](PUBLICAR-NO-GITHUB.md).
+Use o ZIP **site pronto** para envio manual ou o ZIP **projeto completo** com GitHub Actions.
+Não publique o `index.html` de desenvolvimento sozinho.
+
 Site institucional/portfólio da **Agência Rise** construído com **React + Vite + Tailwind CSS**.
 Mostra os trabalhos em vídeo (Vimeo), os serviços — vídeos e artes, projetos de eventos em 3D
 interativo e marketing para comércios —, os planos mensais, um briefing de novos clientes e um
@@ -24,11 +28,12 @@ npm run dev        # sobe o site em http://localhost:5173
 
 ```bash
 npm run build      # gera a pasta dist/
-node scripts/fix-paths.mjs dist/index.html
 npm run preview    # pré-visualiza o build em http://localhost:4173
+npm run package:site  # gera os ZIPs do site pronto e do projeto completo
 ```
 
-> Os comandos acima geram `dist/index.html`, `dist/briefing/index.html` e as imagens de `public/`.
+> O build ajusta os caminhos automaticamente e gera `dist/index.html`,
+> `dist/briefing/index.html`, `.nojekyll` e as imagens. Os ZIPs ficam em `public/downloads/`.
 
 ### Pedido rápido (janela na página inicial)
 
@@ -60,12 +65,14 @@ organizada (negrito e quebras de linha); o cliente confere e confirma o envio de
 
 ## Publicando no GitHub Pages
 
-Existem duas formas. A **Opção A** é a mais simples e automática.
+Existem duas formas. Não misture os arquivos ou a configuração das duas opções.
+O guia completo está em [PUBLICAR-NO-GITHUB.md](PUBLICAR-NO-GITHUB.md).
 
 ### Opção A — GitHub Actions (recomendada)
 
-O repositório já inclui um workflow em `.github/workflows/deploy.yml` que **constrói e publica
-sozinho** a cada push.
+O ZIP `agencia-rise-projeto-completo.zip` inclui o workflow `.github/workflows/deploy.yml`
+que **compila o React e publica somente `dist/`**. Envie também as pastas `src`, `public`,
+`scripts` e `.github`; elas são indispensáveis e não podem ficar só no seu computador.
 
 1. Crie um repositório vazio no GitHub (ex.: `agencia-rise`).
 2. Suba o código do projeto:
@@ -86,30 +93,32 @@ sozinho** a cada push.
 
 > Cada push no `main` republica o site automaticamente.
 
-### Opção B — Branch `gh-pages` (manual)
+### Opção B — Envio Manual do Site Pronto
 
-Se preferir publicar manualmente, use o script `deploy.sh`, que faz o build e já ajusta os
-caminhos das imagens para o GitHub Pages:
+1. Extraia `agencia-rise-site-pronto.zip` no computador.
+2. Envie **todo o conteúdo extraído** para a raiz da branch `main`, incluindo as pastas
+   `images` e `briefing`. O `index.html` compilado deve substituir o antigo.
+3. Em **Settings → Pages → Source**, escolha **Deploy from a branch**, branch **main**, pasta **/(root)**.
+4. Aguarde **pages build and deployment** terminar com sucesso em **Actions**.
 
-```bash
-./deploy.sh
-```
-
-Depois, envie a pasta `dist/` para uma branch `gh-pages`:
-
-```bash
-# a partir da raiz do projeto
-git subtree push --prefix dist origin gh-pages
-```
-
-ou, se preferir, suba os arquivos de `dist/` diretamente pelo navegador do GitHub para uma branch
-chamada `gh-pages` (Settings → Pages → Source: **Deploy from a branch** → `gh-pages` / root).
-
-O site aparece em `https://SEU-USUARIO.github.io/agencia-rise/`.
+Não envie somente o ZIP: o GitHub não o descompacta para publicar.
+Não use o workflow de compilação quando o repositório contiver somente o site pronto.
 
 > **Por que o ajuste de caminhos?** O GitHub Pages publica em uma subpasta
 > (`usuario.github.io/repo/`). Os caminhos das imagens precisam ser relativos
-> (`./images/...`). O `deploy.sh` e o workflow já fazem isso por você.
+> (`./images/...`). O `npm run build` e o workflow já fazem isso por você.
+
+### Verificações Antes de Publicar
+
+```bash
+npm run check
+npm test
+npm run build
+```
+
+Os testes recusam HTML de desenvolvimento, conferem os caminhos locais e verificam se
+todos os passos do workflow têm comandos válidos. A aparência e as funcionalidades do
+portfólio não foram modificadas para esta correção de publicação.
 
 ---
 

@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build --base=./",
+    "preview": "vite preview",
+    "postbuild": "node scripts/fix-paths.mjs dist && node scripts/verify-static.mjs dist",
+    "check": "tsc --noEmit",
+    "test": "node --test scripts/tests/*.test.mjs",
+    "package:site": "node scripts/package-site.mjs"
   },
   "dependencies": {
     "@vimeo/player": "^2.30.4",
@@ -24,9 +28,11 @@
     "@types/react-dom": "19.2.3",
     "@types/vimeo__player": "^2.18.3",
     "@vitejs/plugin-react": "5.1.1",
+    "fflate": "^0.8.3",
     "tailwindcss": "4.1.17",
     "typescript": "5.9.3",
     "vite": "^7.3.7",
-    "vite-plugin-singlefile": "2.3.0"
+    "vite-plugin-singlefile": "2.3.0",
+    "yaml": "^2.9.1"
   }
 }
