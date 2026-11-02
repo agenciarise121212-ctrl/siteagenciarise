@@ -1,15 +1,23 @@
+# Dependências
 node_modules/
-dist/
+
+# Build do Next.js
+.next/
+out/
 build/
-logs/
-*.log
-npm-debug.log*
+next-env.d.ts
+*.tsbuildinfo
+
+# Variáveis de ambiente (nunca publicar credenciais)
 .env
-.env.local
-.env.*.local
-.vscode/
-.idea/
+.env.*
+!.env.example
+
+# Artefato local do GitHub Pages
+_site/
+
+# Logs e sistema
+npm-debug.log*
+*.log
 .DS_Store
-shots/
-coverage/
-public/downloads/
+Thumbs.db
