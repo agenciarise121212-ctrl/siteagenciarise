@@ -1,23 +1,33 @@
 # Dependências
-node_modules/
+/node_modules
+/.pnp
+.pnp.*
 
 # Build do Next.js
-.next/
-out/
-build/
+/.next/
+/out/
+/build
 next-env.d.ts
 *.tsbuildinfo
 
-# Variáveis de ambiente (nunca publicar credenciais)
+# Variáveis de ambiente (NUNCA enviar para o GitHub)
 .env
-.env.*
-!.env.example
+.env*.local
+.env.development
+.env.production
 
-# Artefato local do GitHub Pages
-_site/
+# Vercel
+.vercel
 
 # Logs e sistema
 npm-debug.log*
-*.log
+yarn-debug.log*
+yarn-error.log*
 .DS_Store
 Thumbs.db
+*.pem
+
+# Editores
+.vscode/*
+!.vscode/extensions.json
+.idea
